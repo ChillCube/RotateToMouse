@@ -22,13 +22,5 @@ func _process(delta: float) -> void:
 	if on:
 		rotator._set_target_rotation_by_direction(_direction_to_mouse())
 
-func _direction_to_mouse() -> Vector2: #Bug for some reason the parent node rotates a lot at spawn
-	var camera = get_viewport().get_camera_2d()
-	if not camera:
-		return Vector2.ZERO
-	var mouse_screen_pos = get_viewport().get_mouse_position()
-	var viewport_size = get_viewport().get_visible_rect().size
-	var mouse_world_pos = camera.global_position + \
-						  (mouse_screen_pos - viewport_size / 2) * camera.zoom
-	
-	return (get_parent().global_position - mouse_world_pos).normalized()
+func _direction_to_mouse() -> Vector2:
+	return (get_global_mouse_position() - get_parent().global_position).normalized()
